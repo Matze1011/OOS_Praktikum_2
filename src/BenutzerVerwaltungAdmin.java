@@ -39,6 +39,18 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
             }
     }
 
+    public void benutzerLoeschen (Benutzer benutzer) throws DuplicateObjectException{
+            for(int i=0;i<10;i++) {
+            if(this.datenhaltung[i]!=null && this.datenhaltung[i].equals(benutzer)){
+                this.datenhaltung[i]=null;
+                break;
+            }
+            else {
+                throw new DuplicateObjectException(benutzer.getUserId() + " existiert nicht");
+            }
+        }
+    }
+
 
     /**
      * Prüft, ob ein {@link Benutzer} bereits vorhanden ist in der Datenhaltung des Admins

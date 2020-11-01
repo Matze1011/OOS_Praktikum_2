@@ -4,9 +4,11 @@ public class main {
         char[] passwort1 = {'1','2','3'};
         char[] passwort2 = {'a','b','c'};
         char[] passwort3 = {'1','2','3'};
+        char[] passwort4 = {'5','5','5','5','5',};
         Benutzer benutzer1 = new Benutzer("Matze1011",passwort1);
         Benutzer benutzer2 = new Benutzer("Micha1011",passwort2);
-        Benutzer benutzer3 = new Benutzer("Matze1011",passwort3);
+        Benutzer benutzer3 = new Benutzer("Matze1013",passwort3);
+        Benutzer benutzer4 = new Benutzer("Marcel",passwort4);
 
         System.out.println( "Sind Benutzer 1 und Benutzer 1 gleich?(true):" + benutzer1.equals(benutzer1));
         System.out.println( "Sind Benutzer 1 und Benutzer 2 gleich?:(false)" + benutzer1.equals(benutzer2));
@@ -19,7 +21,9 @@ public class main {
 
         admin1.benutzerEintragen(benutzer1);
         admin1.benutzerEintragen(benutzer2);
-        admin1.benutzerEintragen(benutzer3);
+        admin1.benutzerEintragen(benutzer1);
+
+        admin1.benutzerLoeschen(benutzer4);
 
 
         System.out.println("Admin 1 verwaltet folgende Benutzer: " + admin1.toString(admin1.datenhaltung));
