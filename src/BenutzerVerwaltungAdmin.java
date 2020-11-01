@@ -3,6 +3,10 @@
  * version 1.0
  */
 
+import com.sun.jdi.request.DuplicateRequestException;
+
+import java.util.DuplicateFormatFlagsException;
+
 /**
  * Klasse BenutzerVerwaltungAdmin, mit der Admins erzeugt werden können, welche dann {@link Benutzer} verwalten können
  */
@@ -21,15 +25,20 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * @param benutzer Der einzutragende Benutzer
      */
     @Override
-    public void benutzerEintragen(Benutzer benutzer) {
-        for (int i = 0; i < 10; i++) {
-            if (datenhaltung[i] == null) {
-                datenhaltung[i] = benutzer;
-                break;
-            }
+    public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException {
+            for (int i = 0; i < 10; i++) {
 
-        }
+                if (datenhaltung[i] == null) {
+                    datenhaltung[i] = benutzer;
+                    break;
+                }
+                else if(this.benutzerVorhanden(benutzer)){
+                    throw new DuplicateObjectException("Benutzer ist bereits vorhanden");
+                }
+
+            }
     }
+
 
     /**
      * Prüft, ob ein {@link Benutzer} bereits vorhanden ist in der Datenhaltung des Admins
@@ -52,6 +61,13 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
             }
 
         } return vorhanden;
+    }
+
+    public class DuplicateObjectException extends DuplicateFormatFlagsException{
+        DuplicateObjectException (String ausgabe){
+            super(ausgabe);
+        }
+
     }
 
     /**
