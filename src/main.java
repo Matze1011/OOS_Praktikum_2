@@ -8,6 +8,7 @@ public class main {
         char[] passwort5 = {'5','5','b','5','5',};
         char[] passwort6 = {'5','5','5','c','5',};
 
+        System.out.println("\n"+ "Benutzer 1 bis 5 werden erzeugt." );
         Benutzer benutzer1 = new Benutzer("Benutzer1",passwort1);
         Benutzer benutzer2 = new Benutzer("benutzer2",passwort2);
         Benutzer benutzer3 = new Benutzer("Benutzer3",passwort3);
@@ -15,7 +16,8 @@ public class main {
         Benutzer benutzer5 = new Benutzer("Benutzer5",passwort5);
         Benutzer benutzer6 = new Benutzer("Benutzer6",passwort6);
 
-        System.out.println("\n"+ "Sind Benutzer 1 und Benutzer 1 gleich?(true): " + benutzer1.equals(benutzer1));
+        System.out.println("Equals Methoden Test: ");
+        System.out.println("Sind Benutzer 1 und Benutzer 1 gleich?(true): " + benutzer1.equals(benutzer1));
         System.out.println( "Sind Benutzer 1 und Benutzer 2 gleich?:(false): " + benutzer1.equals(benutzer2));
         System.out.println( "Sind Benutzer 1 und Benutzer 3 gleich?:(false): " + benutzer1.equals(benutzer3));
         System.out.println("==============================================================");
@@ -46,9 +48,9 @@ public class main {
         System.out.println("Admin 1 verwaltet nun folgende Benutzer (4 Benutzer erwartet): " + admin1.toString(admin1.datenhaltung));
         System.out.println("Ist Benutzer 1 vorhanden? (erwartet wird false): " + admin1.benutzerVorhanden(benutzer1));
         System.out.println("==============================================================");
+
         admin1.benutzerEintragen(benutzer1);
 
-        System.out.println("==============================================================");
         System.out.println("Benutzer 1 wird wieder in die Datenhaltung geaddet");
         System.out.println("Admin 1 verwaltet nun folgende Benutzer (5 Benutzer erwartet): " + admin1.toString(admin1.datenhaltung));
         System.out.println("Ist Benutzer 1 vorhanden? (erwartet wird true): " + admin1.benutzerVorhanden(benutzer1));
