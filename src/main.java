@@ -34,7 +34,7 @@ public class main {
         admin1.benutzerEintragen(benutzer4);
         admin1.benutzerEintragen(benutzer5);
         //admin1.benutzerEintragen(benutzer6);
-        admin1.benutzerEintragen(benutzer3);
+        //admin1.benutzerEintragen(benutzer3);
 
         System.out.println("Admin 1 verwaltet jetzt folgende Benutzer(5 Benutzer erwartet): " + admin1.toString(admin1.datenhaltung));
         System.out.println("==============================================================");
