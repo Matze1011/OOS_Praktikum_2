@@ -14,7 +14,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
     /**
      * Array in dem mehrere Benutzer gespeichert werden können.
      */
-    Benutzer datenhaltung[] = new Benutzer[10];
+    Benutzer datenhaltung[] = new Benutzer[5];
     String AdminUsername;
     String passwort;
 
@@ -23,30 +23,42 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * @see #datenhaltung
      * @see Benutzer
      * @param benutzer Der einzutragende Benutzer
+     * @throws DuplicateObjectException Gibt Fehler zurück, wenn der Benutzer bereits vorhanden ist.
+     * @throws IndexOutOfBoundsException Gibt einen Fehler zurück, wenn die Datenhaltung voll ist.
      */
     @Override
-    public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException {
-            for (int i = 0; i < 10; i++) {
+    public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException, IndexOutOfBoundsException{
+            for (int i = 0; i < datenhaltung.length; i++) {
 
                 if (datenhaltung[i] == null) {
                     datenhaltung[i] = benutzer;
                     break;
                 }
                 else if(this.benutzerVorhanden(benutzer)){
-                    throw new DuplicateObjectException("Benutzer ist bereits vorhanden");
+                    throw new DuplicateObjectException(benutzer.getUserId()+ " bereits vorhanden");
+                }
+                else if(datenhaltung[0]!=null&&datenhaltung[1]!=null&&datenhaltung[2]!=null&&datenhaltung[3]!=null&&datenhaltung[4]!=null){
+                    throw new IndexOutOfBoundsException("Datenhaltung ist voll");
                 }
 
             }
     }
 
+    /**
+     * Methode zum Löschen eines Benutzer aus der Datenhaltung.
+     * @param benutzer Zu löschender Benutzer.
+     * @throws DuplicateObjectException Gibt einen Fehler zurück, wenn der zu löschende Benutzer nicht existiert.
+     */
     public void benutzerLoeschen (Benutzer benutzer) throws DuplicateObjectException{
-            for(int i=0;i<10;i++) {
-            if(this.datenhaltung[i]!=null && this.datenhaltung[i].equals(benutzer)){
-                this.datenhaltung[i]=null;
-                break;
+            if(benutzerVorhanden(benutzer)==false){
+            throw new DuplicateObjectException(benutzer.getUserId() + " existiert nicht");
             }
-            else {
-                throw new DuplicateObjectException(benutzer.getUserId() + " existiert nicht");
+            else{
+            for(int i=0;i<datenhaltung.length;i++) {
+                if (this.datenhaltung[i] != null && this.datenhaltung[i].equals(benutzer)) {
+                    this.datenhaltung[i] = null;
+                    break;
+                }
             }
         }
     }
@@ -60,7 +72,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
     @Override
     public boolean benutzerVorhanden(Benutzer benutzer) {
         boolean vorhanden = true;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < datenhaltung.length; i++) {
             if(datenhaltung[i]==null){
                 return false;
             }
@@ -75,6 +87,9 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
         } return vorhanden;
     }
 
+    /**
+     * Selbst definierte Exception, die in {@link #benutzerEintragen(Benutzer)} verwendet wird.
+     */
     public class DuplicateObjectException extends DuplicateFormatFlagsException{
         DuplicateObjectException (String ausgabe){
             super(ausgabe);

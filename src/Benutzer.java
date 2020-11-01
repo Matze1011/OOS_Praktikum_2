@@ -12,6 +12,9 @@ public class Benutzer {
      * User ID eines Benutzers
      */
     private String userId;
+    /**
+     * Passwort des Benutzers
+     */
     private char[] passwort = new char[50];
 
     /**
