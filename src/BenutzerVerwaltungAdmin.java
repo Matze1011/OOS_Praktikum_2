@@ -4,6 +4,10 @@
  */
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.DuplicateFormatFlagsException;
 
 /**
@@ -16,6 +20,17 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
     Benutzer datenhaltung[] = new Benutzer[5];
     String AdminUsername;
     String passwort;
+    String dateiName = "";
+
+    public void dbInit() throws IOException {
+        //Benutzer datenhaltungPersistent[] = new Benutzer[5];
+        FileOutputStream fos = new FileOutputStream(dateiName);
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+        os.writeObject(datenhaltung);
+        os.close();
+        fos.close();
+    }
+
 
     /**
      * Trägt einen Benutzer in die Datenhaltung eines Admins ein.
@@ -31,6 +46,21 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
 
                 if (datenhaltung[i] == null) {
                     datenhaltung[i] = benutzer;
+                    try{
+                        FileOutputStream fos = new FileOutputStream(dateiName);
+                        ObjectOutputStream os = new ObjectOutputStream(fos);
+
+                        os.writeObject(datenhaltung);
+
+                        os.close();
+                        fos.close();
+
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                    }
                     break;
                 }
                 else if(this.benutzerVorhanden(benutzer)){
@@ -100,7 +130,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * Default Konstruktor
      */
     //Konstruktor
-    BenutzerVerwaltungAdmin() {};
+    BenutzerVerwaltungAdmin(String DateiName) {this.dateiName = DateiName;};
 
     /**
      * toString Methode mittels der alle {@link Benutzer} einer Datenhaltung als String ausgegeben werden können.

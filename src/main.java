@@ -1,5 +1,7 @@
+import java.io.IOException;
+
 public class main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         char[] passwort1 = {'1','2','3'};
         char[] passwort2 = {'a','b','c'};
@@ -26,7 +28,7 @@ public class main {
         System.out.println("Benutzer 1 wird ausgegeben (über toString Methode): "+ benutzer1.toString());
         System.out.println("==============================================================");
 
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin();
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("Test.txt");
 
         System.out.println("Benutzer 1 - 5  werden in die Datenhaltung geaddet.");
 
@@ -62,7 +64,7 @@ public class main {
         System.out.println("Jetzt wird Benutzer 6 hinzugefügt. ");
         admin1.benutzerEintragen(benutzer6);
         System.out.println("Admin 1 verwaltet nun folgende Benutzer (5 Benutzer erwartet, Benutzer 6 an zweiter Stelle): " + admin1.toString(admin1.datenhaltung));
-
+        admin1.dbInit();
         //admin1.benutzerEintragen(benutzer2);
 
 

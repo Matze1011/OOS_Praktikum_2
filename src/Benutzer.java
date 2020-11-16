@@ -2,12 +2,13 @@
  * @author Matze
  */
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * Enthält enthält userID's und die Passwörter aller Benutzer des Systems. Außerdem Methoden um mit den Benutzer Instanzen arbeiten zu können.
  */
-public class Benutzer {
+public class Benutzer implements Serializable {
     /**
      * User ID eines Benutzers
      */
