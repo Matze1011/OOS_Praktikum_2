@@ -28,7 +28,7 @@ public class main {
         System.out.println("Benutzer 1 wird ausgegeben (über toString Methode): "+ benutzer1.toString());
         System.out.println("==============================================================");
 
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("Test.txt");
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("Test2.txt");
 
         System.out.println("Benutzer 1 - 5  werden in die Datenhaltung geaddet.");
 
