@@ -3,7 +3,6 @@
  * version 1.0
  */
 
-import com.sun.jdi.request.DuplicateRequestException;
 
 import java.util.DuplicateFormatFlagsException;
 
