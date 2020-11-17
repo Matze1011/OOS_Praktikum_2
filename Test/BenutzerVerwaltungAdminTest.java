@@ -15,7 +15,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
     }
 
-    @AfterEach
+    @AfterEach // Damit die Testdateien immer wieder gelöscht werden nach jedem Testdurchlauf
     public void dateiLoeschen(){
         File f = new File("C:\\Users\\matze\\IdeaProjects\\OOS Praktikum 2\\UnitTestDbInit.txt");
         f.delete();
@@ -33,7 +33,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
                     admin1.benutzerEintragen(testbenutzer1);
                     assertTrue(admin1.benutzerVorhanden(testbenutzer1));
                 });
-        System.out.println(testException.getMessage());
+        System.out.println("BenutzerEintragen Methode: " + testException.getMessage());
 
     }
 
@@ -47,7 +47,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
                     admin1.benutzerEintragen(testbenutzer1);
                     admin1.benutzerLoeschen(testbenutzer1);;
                 });
-        System.out.println(testException.getMessage());
+        System.out.println("BenutzerLoeschen Methode: " + testException.getMessage());
 
     }
 
@@ -63,7 +63,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
                     admin1.benutzerEintragen(testbenutzer1);
                     assertTrue(admin1.benutzerVorhanden(testbenutzer1));
                 });
-        System.out.println(testException.getMessage());
+        System.out.println("BenutzerVorhanden Methode: " + testException.getMessage());
     }
 
     public void setUp() throws IOException {

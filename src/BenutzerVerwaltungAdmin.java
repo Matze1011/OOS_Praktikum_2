@@ -14,23 +14,21 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
     /**
      * Array in dem mehrere Benutzer gespeichert werden können.
      */
+    //hier rausnehmen klappt nicht!
     Benutzer datenhaltung[] = new Benutzer[5];
     String AdminUsername;
     String passwort;
     String dateiName = "";
 
+    //Admin soll mehrere Datenhaltungen erzeugen können!
     public void dbInit() throws IOException {
-        FileOutputStream fos = new FileOutputStream(dateiName);
-        ObjectOutputStream os = new ObjectOutputStream(fos);
-        os.writeObject(datenhaltung);
-        os.close();
-        fos.close();
+        Benutzer[] datenhaltung = new Benutzer[5]; //Hierdurch kann Admin mehrere Datenbanken erzeugen
+        serialisieren();
     }
 
 
     /**
      * Trägt einen Benutzer in die Datenhaltung eines Admins ein.
-     * @see #datenhaltung
      * @see Benutzer
      * @param benutzer Der einzutragende Benutzer
      * @throws DuplicateObjectException Gibt Fehler zurück, wenn der Benutzer bereits vorhanden ist.
@@ -47,7 +45,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
                     datenhaltung[i] = benutzer;
 
                     //Daten speichern
-                    serialisieen();
+                    serialisieren();
                     break;
                 }
                 else if(this.benutzerVorhanden(benutzer)){
@@ -79,15 +77,15 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
                     this.datenhaltung[i] = null;
 
                     //Daten speichern
-                    serialisieen();
+                    serialisieren();
 
                     break;
                 }
             }
         }
     }
-
-    public void deserialisieren()throws IOException,ClassNotFoundException {
+    //privat machen!
+    private void deserialisieren()throws IOException,ClassNotFoundException {
         FileInputStream fis = new FileInputStream(this.dateiName);
         ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -96,8 +94,8 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
         fis.close();
         ois.close();
     }
-
-    public void serialisieen()throws IOException{
+    //privat machen!
+    private void serialisieren()throws IOException{
         FileOutputStream fos = new FileOutputStream(this.dateiName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
 
