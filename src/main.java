@@ -28,7 +28,7 @@ public class main {
         System.out.println("Benutzer 1 wird ausgegeben (über toString Methode): "+ benutzer1.toString());
         System.out.println("==============================================================");
 
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("Test2.txt");
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("TestKeinDbInit.txt");
 
         System.out.println("Benutzer 1 - 5  werden in die Datenhaltung geaddet.");
 
@@ -64,7 +64,7 @@ public class main {
         System.out.println("Jetzt wird Benutzer 6 hinzugefügt. ");
         admin1.benutzerEintragen(benutzer6);
         System.out.println("Admin 1 verwaltet nun folgende Benutzer (5 Benutzer erwartet, Benutzer 6 an zweiter Stelle): " + admin1.toString(admin1.datenhaltung));
-        admin1.dbInit();
+
         //admin1.benutzerEintragen(benutzer2);
 
 
