@@ -20,7 +20,6 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
     String dateiName = "";
 
     public void dbInit() throws IOException {
-        //Benutzer datenhaltungPersistent[] = new Benutzer[5];
         FileOutputStream fos = new FileOutputStream(dateiName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
         os.writeObject(datenhaltung);
@@ -38,46 +37,17 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * @throws IndexOutOfBoundsException Gibt einen Fehler zurück, wenn die Datenhaltung voll ist.
      */
     @Override
-    public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException, IndexOutOfBoundsException{
+    public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException, IndexOutOfBoundsException,IOException,ClassNotFoundException{
 
-        //deserialisieren
-        try{
-            FileInputStream fis = new FileInputStream(dateiName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
-
-            fis.close();
-            ois.close();
-
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //Daten lesen
+        deserialisieren();
 
             for (int i = 0; i < datenhaltung.length; i++) {
                 if (datenhaltung[i] == null) {
                     datenhaltung[i] = benutzer;
 
-                    //serialisieren
-                    try{
-                        FileOutputStream fos = new FileOutputStream(dateiName);
-                        ObjectOutputStream os = new ObjectOutputStream(fos);
-
-                        os.writeObject(datenhaltung); //Datein mit neunem benutzer abspeichern
-
-                        os.close();
-                        fos.close();
-
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
+                    //Daten speichern
+                    serialisieen();
                     break;
                 }
                 else if(this.benutzerVorhanden(benutzer)){
@@ -95,25 +65,10 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * @param benutzer Zu löschender Benutzer.
      * @throws DuplicateObjectException Gibt einen Fehler zurück, wenn der zu löschende Benutzer nicht existiert.
      */
-    public void benutzerLoeschen (Benutzer benutzer) throws DuplicateObjectException{
+    public void benutzerLoeschen (Benutzer benutzer) throws DuplicateObjectException,IOException,ClassNotFoundException{
 
-        //deserialisieren
-        try{
-            FileInputStream fis = new FileInputStream(dateiName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
-
-            fis.close();
-            ois.close();
-
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        //Daten öffnen und lesen
+        deserialisieren();
 
             if(benutzerVorhanden(benutzer)==false){
             throw new DuplicateObjectException(benutzer.getUserId() + " existiert nicht");
@@ -123,21 +78,8 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
                 if (this.datenhaltung[i] != null && this.datenhaltung[i].equals(benutzer)) {
                     this.datenhaltung[i] = null;
 
-                    try{
-                        FileOutputStream fos = new FileOutputStream(dateiName);
-                        ObjectOutputStream os = new ObjectOutputStream(fos);
-
-                        os.writeObject(datenhaltung); //Datein mit neunem benutzer abspeichern
-
-                        os.close();
-                        fos.close();
-
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }
-                    catch (IOException e){
-                        e.printStackTrace();
-                    }
+                    //Daten speichern
+                    serialisieen();
 
                     break;
                 }
@@ -145,6 +87,25 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
         }
     }
 
+    public void deserialisieren()throws IOException,ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(this.dateiName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
+
+        fis.close();
+        ois.close();
+    }
+
+    public void serialisieen()throws IOException{
+        FileOutputStream fos = new FileOutputStream(this.dateiName);
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+
+        os.writeObject(datenhaltung); //Dateien mit neunem benutzer abspeichern
+
+        os.close();
+        fos.close();
+    }
 
     /**
      * Prüft, ob ein {@link Benutzer} bereits vorhanden ist in der Datenhaltung des Admins
@@ -152,24 +113,10 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
      * @return Gibt zurück, ob der Benutzer bereits vorhanden ist oder nicht.
      */
     @Override
-    public boolean benutzerVorhanden(Benutzer benutzer) {
+    public boolean benutzerVorhanden(Benutzer benutzer)throws IOException,ClassNotFoundException {
         //deserialisieren
-        try{
-            FileInputStream fis = new FileInputStream(dateiName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
+        deserialisieren();
 
-            Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
-
-            fis.close();
-            ois.close();
-
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         boolean vorhanden = true;
         for (int i = 0; i < datenhaltung.length; i++) {
             if(datenhaltung[i]==null){

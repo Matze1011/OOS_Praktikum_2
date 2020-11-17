@@ -12,51 +12,71 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
     public void setUp2(){
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTest.txt");
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
+    }
+
+    @AfterEach
+    public void dateiLoeschen(){
+        File f = new File("C:\\Users\\matze\\IdeaProjects\\OOS Praktikum 2\\UnitTestDbInit.txt");
+        f.delete();
     }
 
     @Test
-    public void BenutzerEintragenTest() throws IOException {
+    public void BenutzerEintragenTest() throws IOException,ClassNotFoundException {
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTest.txt");
 
-        assertFalse(admin1.benutzerVorhanden(testbenutzer1));
-        admin1.benutzerEintragen(testbenutzer1);
-        assertTrue(admin1.benutzerVorhanden(testbenutzer1));
+        Exception testException = assertThrows(FileNotFoundException.class,
+                ()-> {
+                    assertFalse(admin1.benutzerVorhanden(testbenutzer1));
+                    admin1.benutzerEintragen(testbenutzer1);
+                    assertTrue(admin1.benutzerVorhanden(testbenutzer1));
+                });
+        System.out.println(testException.getMessage());
+
     }
 
     @Test
-    public void Benutzerlöschen() throws  IOException{
+    public void Benutzerlöschen() throws  IOException,ClassNotFoundException{
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTest.txt");
-        admin1.benutzerEintragen(testbenutzer1);
-        admin1.benutzerLoeschen(testbenutzer1);
-        assertFalse(admin1.benutzerVorhanden(testbenutzer1));
+        Exception testException = assertThrows(FileNotFoundException.class,
+                ()-> {
+                    admin1.benutzerEintragen(testbenutzer1);
+                    admin1.benutzerLoeschen(testbenutzer1);;
+                });
+        System.out.println(testException.getMessage());
+
     }
 
     @Test
-    public void BenutzerVorhandenTest(){
+    public void BenutzerVorhandenTest() throws ClassNotFoundException,IOException{
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTest.txt");
-        assertFalse(admin1.benutzerVorhanden(testbenutzer1));
-        admin1.benutzerEintragen(testbenutzer1);
-        assertTrue(admin1.benutzerVorhanden(testbenutzer1));
+
+        Exception testException = assertThrows(FileNotFoundException.class,
+                ()-> {
+                    assertFalse(admin1.benutzerVorhanden(testbenutzer1));
+                    admin1.benutzerEintragen(testbenutzer1);
+                    assertTrue(admin1.benutzerVorhanden(testbenutzer1));
+                });
+        System.out.println(testException.getMessage());
     }
 
     public void setUp() throws IOException {
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestAufgabe3.txt");
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
         admin1.dbInit();
     }
     @Test
-    public void BenutzerEintragenTestDbInit() throws IOException {
+    public void BenutzerEintragenTestDbInit() throws IOException,ClassNotFoundException {
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
-        setUp(); //dbInit
+        setUp(); //DbInit
 
         assertFalse(admin1.benutzerVorhanden(testbenutzer1));
         admin1.benutzerEintragen(testbenutzer1);
@@ -64,7 +84,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
     }
 
     @Test
-    public void BenutzerlöschenDbInit() throws  IOException{
+    public void BenutzerlöschenDbInit() throws  IOException,ClassNotFoundException{
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
@@ -75,9 +95,10 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
     }
 
     @Test
-    public void BenutzerVorhandenTestDbInit(){
+    public void BenutzerVorhandenTestDbInit() throws ClassNotFoundException,IOException{
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
+        setUp();
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
         assertFalse(admin1.benutzerVorhanden(testbenutzer1));
         admin1.benutzerEintragen(testbenutzer1);
@@ -99,13 +120,14 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
     }
 
     @Test
-    public void ohnedbInitExceptionTest() throws FileNotFoundException{
-        File f = new File("/Users/marcelbuschmann/IdeaProjects/OOS_Praktikum_2/UnitTestDbInit.txt");
-        f.delete();
+    public void ohnedbInitExceptionTest() {
+
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         char[] passwortTest2 = {'1', '2', '0', '0', '5', '6',};
         Benutzer testbenutzer1 = new Benutzer("Matze", passwortTest1);
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
+        File f = new File("C:\\Users\\matze\\IdeaProjects\\OOS Praktikum 2\\UnitTestDbInit.txt");
+        f.delete();
 
         Exception testException = assertThrows(FileNotFoundException.class,
                 ()-> {
@@ -113,5 +135,6 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
                     admin1.benutzerEintragen(testbenutzer);
                 });
         System.out.println(testException.getMessage());
+
     }
 }

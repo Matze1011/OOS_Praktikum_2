@@ -1,7 +1,7 @@
 import java.io.IOException;
 
 public class main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         char[] passwort1 = {'1','2','3'};
         char[] passwort2 = {'a','b','c'};
@@ -28,8 +28,11 @@ public class main {
         System.out.println("Benutzer 1 wird ausgegeben (über toString Methode): "+ benutzer1.toString());
         System.out.println("==============================================================");
 
-        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("TestKeinDbInit.txt");
-
+        BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("TestDbInit.txt");
+        //BenutzerVerwaltungAdmin adminTest = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
+        //admin1.deserialisieren();
+        //adminTest.dbInit();
+        admin1.dbInit();
         System.out.println("Benutzer 1 - 5  werden in die Datenhaltung geaddet.");
 
         admin1.benutzerEintragen(benutzer1);
