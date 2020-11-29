@@ -17,8 +17,8 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
 
     @AfterEach // Damit die Testdateien immer wieder gelöscht werden nach jedem Testdurchlauf
     public void dateiLoeschen(){
-        File f = new File("C:\\Users\\matze\\IdeaProjects\\OOS Praktikum 2\\UnitTestDbInit.txt");
-        f.delete();
+        File f = new File("UnitTestDbInit.txt");
+        f.delete(); //ansonsten: C:\Users\matze\IdeaProjects\OOS Praktikum 2\UnitTestDbInit.txt
     }
 
     @Test
@@ -120,7 +120,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
     }
 
     @Test
-    public void ohnedbInitExceptionTest() {
+    public void ohnedbInitExceptionTest() throws FileNotFoundException {
 
         char[] passwortTest1 = {'1', '2', '3', '4', '5', '6',};
         char[] passwortTest2 = {'1', '2', '0', '0', '5', '6',};
