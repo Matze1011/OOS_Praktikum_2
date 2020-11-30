@@ -55,7 +55,13 @@
                </font>
             </Button>
             <TextField fx:id="wiederholungTextfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="hiddenMeldung" prefHeight="17.0" prefWidth="227.0" text="Passwort != Wiederholung" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
+      <Label text="Label" />
    </children>
 </Pane>

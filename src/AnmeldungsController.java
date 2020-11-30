@@ -7,11 +7,12 @@ import java.util.Arrays;
 
 public class AnmeldungsController {
 
-    //Buttons
+    //Buttons und Textfelder
     @FXML Button submit;
     @FXML TextField useridTextfield;
     @FXML TextField passwortTextfield;
     @FXML TextField wiederholungTextfield;
+    @FXML Label hiddenMeldung;
 
     @FXML
     public void passwortVergleich(Event event) {
@@ -38,7 +39,7 @@ public class AnmeldungsController {
             stage.close();
         }
         else{
-            useridTextfield.setText("Passwort != Wiederholung");
+            hiddenMeldung.setVisible(true);
 
         }
     }
