@@ -116,6 +116,7 @@ public class BenutzerVerwaltungAdminTest implements Serializable {
                     admin1.benutzerEintragen(testbenutzer1);
                     admin1.benutzerEintragen(testbenutzer1);
                 });
+
         System.out.println(testException.getMessage());
     }
 

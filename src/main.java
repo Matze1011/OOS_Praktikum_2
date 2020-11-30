@@ -1,8 +1,37 @@
+import javafx.application.Application;
+
 import java.io.IOException;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.*;
 
-public class main {
+public class main
+{
+    //-------------------------Praktikum 4 -----------------
+    //--------------------------Javafx-------------------------------
+    /*public void start(Stage stage) throws Exception{
+        Label start = new Label ("Test");
+        TextField halloFeld = new TextField();
+        FlowPane anzeige = new FlowPane();
+        anzeige.getChildren().addAll(start,halloFeld);
+        GridPane fensterinhalt = new GridPane();
+        fensterinhalt.add(anzeige,0,0);
+
+        Scene scene = new Scene(fensterinhalt);
+        stage.setScene(scene);
+        stage.setTitle("Test");
+        stage.show();
+    }
+*/
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        //-----------------------------Praktikum 4 --------------------------------------------
+        //launch(args);
 
+        //-----------------------------Praktikum 1---------------------------------------------
         char[] passwort1 = {'1','2','3'};
         char[] passwort2 = {'a','b','c'};
         char[] passwort3 = {'1','2','3'};
@@ -28,6 +57,7 @@ public class main {
         System.out.println("Benutzer 1 wird ausgegeben (über toString Methode): "+ benutzer1.toString());
         System.out.println("==============================================================");
 
+        //----------------------------------Praktikum 2 und 3-----------------------------------------
         BenutzerVerwaltungAdmin admin1 = new BenutzerVerwaltungAdmin("TestDbInit.txt");
         //BenutzerVerwaltungAdmin adminTest = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
         //admin1.deserialisieren();
@@ -69,8 +99,6 @@ public class main {
         System.out.println("Admin 1 verwaltet nun folgende Benutzer (5 Benutzer erwartet, Benutzer 6 an zweiter Stelle): " + admin1.toString(admin1.datenhaltung));
 
         //admin1.benutzerEintragen(benutzer2);
-
-
 
     }
 }

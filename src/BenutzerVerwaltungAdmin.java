@@ -4,17 +4,27 @@
  */
 
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.util.DuplicateFormatFlagsException;
+
 
 /**
  * Klasse BenutzerVerwaltungAdmin, mit der Admins erzeugt werden können, welche dann {@link Benutzer} verwalten können
  */
-public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung {
+public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
+
     /**
      * Array in dem mehrere Benutzer gespeichert werden können.
      */
-    //hier rausnehmen klappt nicht!
+    //hier rausnehmen klappt nicht! Ist aber auch gar nicht nötig!
     Benutzer datenhaltung[] = new Benutzer[5];
     String AdminUsername;
     String passwort;
