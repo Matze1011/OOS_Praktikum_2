@@ -22,6 +22,5 @@ public class application extends Application {
         stage.setScene(scene);
         stage.setTitle("Benutzerverwaltung");
         stage.show();
-
     }
 }
