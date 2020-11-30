@@ -11,22 +11,7 @@ import javafx.stage.*;
 
 public class main
 {
-    //-------------------------Praktikum 4 -----------------
-    //--------------------------Javafx-------------------------------
-    /*public void start(Stage stage) throws Exception{
-        Label start = new Label ("Test");
-        TextField halloFeld = new TextField();
-        FlowPane anzeige = new FlowPane();
-        anzeige.getChildren().addAll(start,halloFeld);
-        GridPane fensterinhalt = new GridPane();
-        fensterinhalt.add(anzeige,0,0);
 
-        Scene scene = new Scene(fensterinhalt);
-        stage.setScene(scene);
-        stage.setTitle("Test");
-        stage.show();
-    }
-*/
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //-----------------------------Praktikum 4 --------------------------------------------
         //launch(args);
