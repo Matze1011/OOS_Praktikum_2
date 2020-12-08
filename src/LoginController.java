@@ -17,7 +17,7 @@ public class LoginController {
     //Buttons
     @FXML Button submit;
     @FXML TextField useridTextfield;
-    @FXML TextField passwortTextfield;
+    @FXML PasswordField passwortTextfield;
     @FXML CheckBox checkboxNeuanmeldung;
 
     //Methoden
