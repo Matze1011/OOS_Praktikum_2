@@ -75,11 +75,10 @@ public class MainApplication extends Application { //extends Application
         dbInitialisieren = Integer.parseInt(din.readLine());
 
         //Bei 1 wird die DB initialisiert
-        if(dbInitialisieren ==1)
+        if(dbInitialisieren == 1)
         {
             admin2.dbInit();
         }
-        else{}
 
         //übergabe der MainApplication an den Controller
         logincontroller.setMainApp(this);

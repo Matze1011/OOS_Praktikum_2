@@ -100,7 +100,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
         FileOutputStream fos = new FileOutputStream(this.dateiName);
         ObjectOutputStream os = new ObjectOutputStream(fos);
 
-        os.writeObject(datenhaltung); //Dateien mit neunem benutzer abspeichern
+        os.writeObject(datenhaltung); //Dateien mit neuem benutzer abspeichern
 
         os.close();
         fos.close();
