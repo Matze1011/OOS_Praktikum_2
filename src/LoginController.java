@@ -2,16 +2,31 @@ import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.application.Application;
+import java.util.stream.Collectors;
 
-
-public class LoginController {
+public class LoginController extends Application {
 
     //Attribute
     private boolean neuAnmeldung = false;
 
+    private MainApplication app;
+
+    @Override
+    public void start(Stage stage) throws Exception{}
+
     //Getter
     public boolean getNeuanmeldung(){
         return neuAnmeldung;
+    }
+
+    //Getter-Setter Praktikum 5
+    public void setMainApp(MainApplication app){ this.app = app;}
+    public MainApplication getMainApp(){return app;}
+    public void setError(String string){error.setText(string);}
+
+    public static void main(String args){
+        launch(args);
     }
 
     //Buttons
@@ -19,10 +34,11 @@ public class LoginController {
     @FXML TextField useridTextfield;
     @FXML PasswordField passwortTextfield;
     @FXML CheckBox checkboxNeuanmeldung;
+    @FXML public Label error;
 
     //Methoden
     @FXML
-    public boolean neuanmeldungSetzen(Event event){
+    public boolean neuanmeldungSetzen(Event event)throws Exception{
         if(checkboxNeuanmeldung.isSelected()){
         neuAnmeldung = true;}
         else {
@@ -32,7 +48,10 @@ public class LoginController {
         return neuAnmeldung;
     }
 
-    public void benutzerHinzufügen(Event event) {
+
+    //Wenn der sumbit Button gedrückt wird
+    @FXML
+    public void benutzerHinzufügen(Event event) throws Exception {
         //Passwort String zu char Array konvertieren
         String passwort = passwortTextfield.getText();
         char[] passwortkonvertiert = new char[passwort.length()];
@@ -42,10 +61,20 @@ public class LoginController {
 
         //Benutzer mit eingegebenen Daten anlegen
         Benutzer neuerBenutzer = new Benutzer(useridTextfield.getText(),passwortkonvertiert);
-        System.out.println("Neuer Benutzer erstellt: " + neuerBenutzer.toString());
 
         //Fenster schließen
-        Stage stage = (Stage) submit.getScene().getWindow();
-        stage.close();
+        //Stage stage = (Stage) submit.getScene().getWindow();
+        //stage.close();
+        if(neuAnmeldung){
+
+            //Call-Back
+            app.neuAnmeldung();
+        }else{
+            //Call-Back
+            app.benutzerLogin(neuerBenutzer);
+        }
+
     }
+
+
 }

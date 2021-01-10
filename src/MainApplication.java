@@ -12,15 +12,15 @@ import java.io.InputStreamReader;
 Aufgabe:
  Die Klasse Main Application steuert das Zusammenspiel der anderen Klassen und soll von "Application" erben!
  Lediglich die launch-Methode soll aufgerufen werden.
- */
+*/
 public class MainApplication extends Application { //extends Application
     //global stage
     Stage mainstage;
 
-    //Deklaration Admin
-    BenutzerVerwaltungAdmin admin;
+    //Admin "admin2" erstellen
+    BenutzerVerwaltungAdmin admin2;
 
-    //Variable um die Auswahl zu speichern
+    //Variable um die Auswahl zu speichern, ob die DB inittialisiert werden soll
     int dbInitialisieren;
 
     //----------------------Login Scene -----------------
@@ -42,7 +42,7 @@ public class MainApplication extends Application { //extends Application
     AnmeldungsController anmeldecontroller = anmeldeloader.getController();
 
     //-------------------- Anwendungs Scene -----------------------
-    FXMLLoader anwendungsloader = new FXMLLoader(getClass().getResource("Benutzerverwaltung.fxml"));
+    FXMLLoader anwendungsloader = new FXMLLoader(getClass().getResource("anwendung.fxml"));
     Parent anwendungsroot = anwendungsloader.load();
     AnwendungsController anwendungscontroller = anwendungsloader.getController();
 
@@ -66,7 +66,7 @@ public class MainApplication extends Application { //extends Application
         this.mainstage = stage;
 
         //Initialisierung eines Admins
-        admin = new BenutzerVerwaltungAdmin("Praktikum5_Daten.txt");
+        admin2 = new BenutzerVerwaltungAdmin("Praktikum5_Daten2.txt");
 
         //Abfrage
         System.out.print("Möchten Sie die Datenhaltung initialisieren? (0=nein / 1=ja): ");
@@ -77,11 +77,12 @@ public class MainApplication extends Application { //extends Application
         //Bei 1 wird die DB initialisiert
         if(dbInitialisieren ==1)
         {
-            admin.dbInit();
+            admin2.dbInit();
         }
 
         //übergabe der MainApplication an den Controller
         logincontroller.setMainApp(this);
+
 
         //Neue scene erstellen
         Scene scene = new Scene(loginroot);
@@ -90,30 +91,31 @@ public class MainApplication extends Application { //extends Application
         stage.show();
     }
 
-    //wird von logincotroller ausgeführt (bei neuAnmeldung==true + ausführen)
+    //--------- void neuAnmeldung -------------
+    //wird von logincotroller ausgeführt wenn neuAnmeldung==true
     public void neuAnmeldung() throws Exception {
-        //übergabe MainApp
-        anmeldecontroller.setMainApp(this);
+        //übergabe an MainApp
+        anmeldecontroller.setMainApp(this); // Übergabe der eigenen Referenz
         //neue Anmeldungs Scene
         Scene scene = new Scene(anmelderoot);
         mainstage.setScene(scene);
     }
 
-    //wird vom Anmeldungscontroller ausgeführt wenn Button gedrückt wird und die pw's stimmen
+    //wird vom Anmeldungscontroller ausgeführt wenn submit Button gedrückt wird und die passwörter stimmen
     public void neuerBenutzer(Benutzer benutzer) throws Exception {
-        //versuche Benutzer einzutragen
+        //versuche neuen Benutzer einzutragen
         try{
-            admin.benutzerEintragen(benutzer);
+            admin2.benutzerEintragen(benutzer);
             //Error anzeigen
         }catch(Exception e){
             //Anzeigen des Fehlers (bereits vorhanden)
-            anmeldecontroller.setError("Error: UserID vergeben");
+            anmeldecontroller.setError("Error: User bereits vorhanden");
             //keine neue scene
             return;
         }
         //konnte nicht loginroot 2 mal verwenden. Man hätte wahrscheinlich die alte loginscene benutzen können
         //übergabe
-        logincontroller2.setMainApp(this);
+        logincontroller2.setMainApp(this); //Übergabe der eigenen Referenz an den Controller
         //neue Scene
         Scene scene = new Scene(loginroot2);
         mainstage.setScene(scene);
@@ -121,15 +123,15 @@ public class MainApplication extends Application { //extends Application
 
     //wird vom logincotroller aufgerufen, eingegebener Benutzer vorhanden (Eingabe richtig)
     public void benutzerLogin(Benutzer benutzer) throws Exception {
-        if(admin.benutzerVorhanden(benutzer)){
-            //anwendungsfenster id/pw richtig
+        if(admin2.benutzerVorhanden(benutzer)){
+            //Passwort Überprüfung nicht gefordert?
             Scene scene = new Scene(anwendungsroot);
             mainstage.setScene(scene);
         }else{
             //login scene fehler Benutzer/PW falsch
-            logincontroller.setError("Benutzer||Passwort falsch");
+            logincontroller.setError("Benutzer oder Passwort falsch");
             //da man nicht weiß wo man her kommt einfach beide
-            logincontroller2.setError("Benutzer||Passwort falsch");
+            logincontroller2.setError("Benutzer oder Passwort falsch");
         }
     }
 }

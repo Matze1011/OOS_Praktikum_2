@@ -86,7 +86,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
         }
     }
     //privat machen!
-    private void deserialisieren()throws IOException,ClassNotFoundException {
+    public void deserialisieren()throws IOException,ClassNotFoundException {
         FileInputStream fis = new FileInputStream(this.dateiName);
         ObjectInputStream ois = new ObjectInputStream(fis);
 
