@@ -49,7 +49,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <CheckBox fx:id="checkboxNeuanmeldung" mnemonicParsing="false" onAction="#neuanmeldungSetzen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <CheckBox fx:id="checkboxNeuanmeldung" mnemonicParsing="false" onAction="#check" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="useridTextfield" GridPane.columnIndex="1" />
             <Button fx:id="submit" mnemonicParsing="false" onAction="#ausführen" prefHeight="37.0" prefWidth="123.0" text="Ausführen" GridPane.rowIndex="3">
                <font>

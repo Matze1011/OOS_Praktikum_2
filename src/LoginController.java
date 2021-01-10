@@ -15,19 +15,6 @@ public class LoginController extends Application {
     @Override
     public void start(Stage stage) throws Exception{}
 
-    //Getter
-    public boolean getNeuanmeldung(){
-        return neuAnmeldung;
-    }
-
-    //Getter-Setter Praktikum 5
-    public void setMainApp(MainApplication app){ this.app = app;}
-    public MainApplication getMainApp(){return app;}
-    public void setError(String string){error.setText(string);}
-
-    public static void main(String args){
-        launch(args);
-    }
 
     //Buttons
     @FXML Button submit;
@@ -36,9 +23,13 @@ public class LoginController extends Application {
     @FXML CheckBox checkboxNeuanmeldung;
     @FXML public Label error;
 
+    public static void main(String args){
+        launch(args);
+    }
+
     //Methoden
     @FXML
-    public boolean neuanmeldungSetzen(Event event)throws Exception{
+    public boolean check(Event event)throws Exception{
         if(checkboxNeuanmeldung.isSelected()){
         neuAnmeldung = true;}
         else {
@@ -62,11 +53,7 @@ public class LoginController extends Application {
         //Benutzer mit eingegebenen Daten anlegen
         Benutzer neuerBenutzer = new Benutzer(useridTextfield.getText(),passwortkonvertiert);
 
-        //Fenster schließen
-        //Stage stage = (Stage) submit.getScene().getWindow();
-        //stage.close();
-        if(neuAnmeldung){
-
+        if(neuAnmeldung==true){
             //Call-Back
             app.neuAnmeldung();
         }else{
@@ -75,6 +62,11 @@ public class LoginController extends Application {
         }
 
     }
-
-
+    //Getter-Setter
+    public void setMainApp(MainApplication app){ this.app = app;}
+    public MainApplication getMainApp(){return app;}
+    public void setError(String string){error.setText(string);}
 }
+
+
+

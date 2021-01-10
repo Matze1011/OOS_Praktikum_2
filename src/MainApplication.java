@@ -66,7 +66,7 @@ public class MainApplication extends Application { //extends Application
         this.mainstage = stage;
 
         //Initialisierung eines Admins
-        admin2 = new BenutzerVerwaltungAdmin("Praktikum5_Daten2.txt");
+        admin2 = new BenutzerVerwaltungAdmin("Datenhaltung.txt");
 
         //Abfrage
         System.out.print("Möchten Sie die Datenhaltung initialisieren? (0=nein / 1=ja): ");
@@ -79,6 +79,7 @@ public class MainApplication extends Application { //extends Application
         {
             admin2.dbInit();
         }
+        else{}
 
         //übergabe der MainApplication an den Controller
         logincontroller.setMainApp(this);

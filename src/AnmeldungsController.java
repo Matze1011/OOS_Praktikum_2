@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class AnmeldungsController extends Application {
 
     //Attribute
-    private MainApplication app;
+    MainApplication app;
 
     //Buttons und Textfelder
     @FXML Button submit;
@@ -44,7 +44,7 @@ public class AnmeldungsController extends Application {
 
         //Passwörter vergleichen und Benutzer mit eingegebenen Daten anlegen
         if(passwort.equals(passwortWiederholung)==true) {
-            Benutzer neuerBenutzer = new Benutzer(useridTextfield.getText(), passwortkonvertiert);
+            Benutzer neuerBenutzer = new Benutzer(""+useridTextfield.getText(), passwortkonvertiert);
             app.neuerBenutzer(neuerBenutzer);
             System.out.println("Neuer Benutzer erstellt: " + neuerBenutzer.toString());
 
