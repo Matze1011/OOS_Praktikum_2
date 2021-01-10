@@ -21,7 +21,7 @@ public class MainApplication extends Application { //extends Application
     BenutzerVerwaltungAdmin admin;
 
     //Variable um die Auswahl zu speichern
-    int dbinitquery;
+    int dbInitialisieren;
 
     //----------------------Login Scene -----------------
     //erstellen des FXMLLoader und setzen der Ressourcen
@@ -46,7 +46,8 @@ public class MainApplication extends Application { //extends Application
     Parent anwendungsroot = anwendungsloader.load();
     AnwendungsController anwendungscontroller = anwendungsloader.getController();
 
-    FXMLLoader loginloader2 = new FXMLLoader(getClass().getResource("a4.fxml"));
+    //-------------------- Benutzerverwaltung (Anmelde Scene 2) -----------------------
+    FXMLLoader loginloader2 = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
     Parent loginroot2 = loginloader2.load();
     LoginController logincontroller2 = loginloader2.getController();
 
@@ -61,25 +62,31 @@ public class MainApplication extends Application { //extends Application
     public void start(Stage stage) throws Exception {
         stage.setTitle("Benutzerverwaltung");
 
-        //übergabe der main Stage
+        //Übergabe der main Stage
         this.mainstage = stage;
 
-        //Initialisierung Admin
-        admin = new BenutzerVerwaltungAdmin("C:\\Users\\localadmin\\Desktop\\oos\\daten.txt");
+        //Initialisierung eines Admins
+        admin = new BenutzerVerwaltungAdmin("Praktikum5_Daten.txt");
 
         //Abfrage
-        System.out.print("Datenhaltung initialisieren ?(0/1): ");
+        System.out.print("Möchten Sie die Datenhaltung initialisieren? (0=nein / 1=ja): ");
+        //Zum einlesen einer Zahl in der Standardeingabe
         BufferedReader din = new BufferedReader(new InputStreamReader(System.in));
-        dbinitquery = Integer.parseInt(din.readLine());
+        dbInitialisieren = Integer.parseInt(din.readLine());
 
-        if(dbinitquery==1){ admin.dbInit();}
+        //Bei 1 wird die DB initialisiert
+        if(dbInitialisieren ==1)
+        {
+            admin.dbInit();
+        }
 
-        //übergabe der MainApplication an den controller
+        //übergabe der MainApplication an den Controller
         logincontroller.setMainApp(this);
-        //neue scene
+
+        //Neue scene erstellen
         Scene scene = new Scene(loginroot);
         stage.setScene(scene);
-        //go
+        //stage ausgeben
         stage.show();
     }
 
