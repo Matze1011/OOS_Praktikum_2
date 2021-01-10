@@ -51,10 +51,10 @@ public class MainApplication extends Application { //extends Application
     Parent loginroot2 = loginloader2.load();
     LoginController logincontroller2 = loginloader2.getController();
 
-    //throws IOException
+    //Throws IOException
     public MainApplication() throws IOException {}
 
-    //standard main
+    //Standard main
     public static void main(String args) { launch(args); }
 
     //start der MainApp, dbInit Abfrage, neuen Admin erstellen, Login Scene
