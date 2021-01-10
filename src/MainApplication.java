@@ -57,7 +57,7 @@ public class MainApplication extends Application { //extends Application
     //standard main
     public static void main(String args) { launch(args); }
 
-    //start der MainApp, dbInit Abfrage, neuer Admin, Login Scene
+    //start der MainApp, dbInit Abfrage, neuen Admin erstellen, Login Scene
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Benutzerverwaltung");
@@ -82,8 +82,6 @@ public class MainApplication extends Application { //extends Application
 
         //übergabe der MainApplication an den Controller
         logincontroller.setMainApp(this);
-
-
         //Neue scene erstellen
         Scene scene = new Scene(loginroot);
         stage.setScene(scene);

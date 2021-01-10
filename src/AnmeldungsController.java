@@ -27,7 +27,7 @@ public class AnmeldungsController extends Application {
     public void start(Stage stage){}
 
     @FXML
-    public void passwortVergleich(Event event) throws Exception {
+    public void ausführen(Event event) throws Exception {
         //Passwort String zu char Array konvertieren
         String passwort = passwortTextfield.getText();
         char[] passwortkonvertiert = new char[passwort.length()];

@@ -51,7 +51,7 @@ public class LoginController extends Application {
 
     //Wenn der sumbit Button gedrückt wird
     @FXML
-    public void benutzerHinzufügen(Event event) throws Exception {
+    public void ausführen(Event event) throws Exception {
         //Passwort String zu char Array konvertieren
         String passwort = passwortTextfield.getText();
         char[] passwortkonvertiert = new char[passwort.length()];
