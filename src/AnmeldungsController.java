@@ -1,61 +1,50 @@
-import javafx.event.*;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-import javafx.application.Application;
-import java.util.stream.Collectors;
-import java.util.Arrays;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import java.io.IOException;
 
-public class AnmeldungsController extends Application {
+public class AnmeldungsController {
 
-    //Attribute
-    MainApplication app;
-
-    //Buttons und Textfelder
-    @FXML Button submit;
+    MainApplication Steuerung;
     @FXML TextField useridTextfield;
     @FXML TextField passwortTextfield;
+    @FXML Button submit;
     @FXML TextField wiederholungTextfield;
     @FXML Label hiddenMeldung;
     @FXML Label error;
 
-    public static void main(String args){
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage){}
-
     @FXML
-    public void ausführen(Event event) throws Exception {
-        //Passwort String zu char Array konvertieren
-        String passwort = passwortTextfield.getText();
-        char[] passwortkonvertiert = new char[passwort.length()];
-        for (int i = 0; i < passwort.length(); i++) {
-            passwortkonvertiert[i] = passwort.charAt(i);
-        }
+    private void ausführen() throws ClassNotFoundException, IOException {
+        //Als Reaktion auf Drücken des Buttons wird wie folgt verfahren:
 
-        //Passwort Wiederholung String zu char Array konvertieren
-        String passwortWiederholung = wiederholungTextfield.getText();
-        char[] passwortWiederholungKonvertiert = new char[passwortWiederholung.length()];
-        for (int i = 0; i < passwortWiederholung.length(); i++) {
-            passwortWiederholungKonvertiert[i] = passwortWiederholung.charAt(i);
-        }
+        if(passwortTextfield.getText().equals(wiederholungTextfield.getText())) {
 
-        //Passwörter vergleichen und Benutzer mit eingegebenen Daten anlegen
-        if(passwort.equals(passwortWiederholung)==true) {
-            Benutzer neuerBenutzer = new Benutzer(""+useridTextfield.getText(), passwortkonvertiert);
-            app.neuerBenutzer(neuerBenutzer);
-            System.out.println("Neuer Benutzer erstellt: " + neuerBenutzer.toString());
+            //In dem Fall, dass sie gleich sind, wird die Kontrolle wieder an
+            //das MainApplication-Objekt durch den Aufruf der Call-BackMethode neuerBenutzer(benutzer)übergeben.
+            //Dabei wird im Parameter der im AnmeldungController erzeugte Benutzer übergeben.
 
-        }
-        else{
-            hiddenMeldung.setVisible(true);
-
+            error.setVisible(false);
+            Benutzer benutzer = new Benutzer(useridTextfield.getText(),passwortTextfield.getText().toCharArray());
+            System.out.println(benutzer.toString());
+            submit.getScene().getWindow().hide();
+            Steuerung.neuerBenutzer(benutzer);
+        } else {
+            //In dem Fall, dass die Inhalte der beiden Passwortfelder
+            //verschieden sind, wird wie bisher verfahren.
+            error.setVisible(true);
+            hiddenMeldung.setVisible(false);
         }
     }
-    //Getter-Setter Praktikum 5
-    public void setMainApp(MainApplication app){this.app = app;}
-    public MainApplication getMainApp(){return app;}
-    public void setError(String string){error.setText(string);}
+
+    //Setter
+    public void setSteuerung(MainApplication steuerung) throws NullPointerException{
+        this.Steuerung = steuerung;
+    }
+
+    public void setNachricht(String Nachricht){
+        hiddenMeldung.setText(Nachricht);
+    }
+
 }

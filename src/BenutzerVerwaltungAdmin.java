@@ -21,6 +21,28 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
     String passwort;
     String dateiName = "";
 
+    //privat machen!
+    public Benutzer[] deserialisieren()throws IOException,ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(this.dateiName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
+
+        fis.close();
+        ois.close();
+        return datenarray;
+    }
+    //privat machen!
+    private void serialisieren()throws IOException{
+        FileOutputStream fos = new FileOutputStream(this.dateiName);
+        ObjectOutputStream os = new ObjectOutputStream(fos);
+
+        os.writeObject(datenhaltung); //Dateien mit neuem benutzer abspeichern
+
+        os.close();
+        fos.close();
+    }
+
     //Admin soll mehrere Datenhaltungen erzeugen können!
     public void dbInit() throws IOException {
         Benutzer[] datenhaltung = new Benutzer[5]; //Hierdurch kann Admin mehrere Datenbanken erzeugen
@@ -39,7 +61,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
     public void benutzerEintragen(Benutzer benutzer) throws DuplicateObjectException, IndexOutOfBoundsException,IOException,ClassNotFoundException{
 
         //Daten lesen
-        deserialisieren();
+        datenhaltung = this.deserialisieren();
 
             for (int i = 0; i < datenhaltung.length; i++) {
                 if (datenhaltung[i] == null) {
@@ -85,26 +107,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
             }
         }
     }
-    //privat machen!
-    public void deserialisieren()throws IOException,ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(this.dateiName);
-        ObjectInputStream ois = new ObjectInputStream(fis);
 
-        Benutzer[] datenarray = (Benutzer[]) ois.readObject(); //unsere File mit der Datenhaltung einlesen
-
-        fis.close();
-        ois.close();
-    }
-    //privat machen!
-    private void serialisieren()throws IOException{
-        FileOutputStream fos = new FileOutputStream(this.dateiName);
-        ObjectOutputStream os = new ObjectOutputStream(fos);
-
-        os.writeObject(datenhaltung); //Dateien mit neuem benutzer abspeichern
-
-        os.close();
-        fos.close();
-    }
 
     /**
      * Prüft, ob ein {@link Benutzer} bereits vorhanden ist in der Datenhaltung des Admins
@@ -114,7 +117,7 @@ public class BenutzerVerwaltungAdmin implements BenutzerVerwaltung  {
     @Override
     public boolean benutzerVorhanden(Benutzer benutzer)throws IOException,ClassNotFoundException {
         //deserialisieren
-        deserialisieren();
+        datenhaltung = this.deserialisieren();
 
         boolean vorhanden = true;
         for (int i = 0; i < datenhaltung.length; i++) {

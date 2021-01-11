@@ -2,134 +2,128 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import java.io.IOException;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
+public class MainApplication extends Application  {
 
-/*
-Aufgabe:
- Die Klasse Main Application steuert das Zusammenspiel der anderen Klassen und soll von "Application" erben!
- Lediglich die launch-Methode soll aufgerufen werden.
-*/
-public class MainApplication extends Application { //extends Application
-    //global stage
-    Stage mainstage;
-
-    //Admin "admin2" erstellen
-    BenutzerVerwaltungAdmin admin2;
-
-    //Variable um die Auswahl zu speichern, ob die DB inittialisiert werden soll
-    int dbInitialisieren;
-
-    //----------------------Login Scene -----------------
-    //erstellen des FXMLLoader und setzen der Ressourcen
-    FXMLLoader loginloader = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
-
-    //load() und get root für die Szene
-    Parent loginroot = loginloader.load();
-
-    //Controller vom Loader bekommen
-    LoginController logincontroller = loginloader.getController();
+    //neuen Admin erstellen
+    BenutzerVerwaltungAdmin admin;
+    Stage MainStage = new Stage();
 
 
-    //--------------------- Anmelde Scene -----------------------
-    //gleiches Vorgehen wie für Login Scene
-    //das gleiche für Anmelden und Anwendung und der 2ten Login Scene
-    FXMLLoader anmeldeloader = new FXMLLoader(getClass().getResource("anmeldungFXML.fxml"));
-    Parent anmelderoot = anmeldeloader.load();
-    AnmeldungsController anmeldecontroller = anmeldeloader.getController();
-
-    //-------------------- Anwendungs Scene -----------------------
-    FXMLLoader anwendungsloader = new FXMLLoader(getClass().getResource("anwendung.fxml"));
-    Parent anwendungsroot = anwendungsloader.load();
-    AnwendungsController anwendungscontroller = anwendungsloader.getController();
-
-    //-------------------- Benutzerverwaltung (Anmelde Scene 2) -----------------------
-    FXMLLoader loginloader2 = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
-    Parent loginroot2 = loginloader2.load();
-    LoginController logincontroller2 = loginloader2.getController();
-
-    //Throws IOException
-    public MainApplication() throws IOException {}
-
-    //Standard main
-    public static void main(String args) { launch(args); }
-
-    //start der MainApp, dbInit Abfrage, neuen Admin erstellen, Login Scene
+    //---------------------- Wird zu erst angezeigt ----------------------------
     @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Benutzerverwaltung");
+    public void start(Stage firstStage) throws Exception{
+        try {
+            admin = new BenutzerVerwaltungAdmin("DatenhaltungNeu.txt");
+            System.out.println("Soll die Datenhaltung initialisiert werden? Nein[0]  Ja[1]");
 
-        //Übergabe der main Stage
-        this.mainstage = stage;
+            BufferedReader din = new BufferedReader(new InputStreamReader(System.in));
+            int dbInitialisieren = Integer.parseInt(din.readLine());
 
-        //Initialisierung eines Admins
-        admin2 = new BenutzerVerwaltungAdmin("Datenhaltung.txt");
+            if (dbInitialisieren == 1)
+            {
+                admin.dbInit(); //Vorherige Daten werden gelöscht
+            }
 
-        //Abfrage
-        System.out.print("Möchten Sie die Datenhaltung initialisieren? (0=nein / 1=ja): ");
-        //Zum einlesen einer Zahl in der Standardeingabe
-        BufferedReader din = new BufferedReader(new InputStreamReader(System.in));
-        dbInitialisieren = Integer.parseInt(din.readLine());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
+            Parent login = loader.load();
+            LoginController LoginSceneController = (LoginController) loader.getController();
+            LoginSceneController.setSteuerung(this);
+            firstStage.setTitle("Login");
+            firstStage.setScene(new Scene(login));
+            firstStage.show();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
-        //Bei 1 wird die DB initialisiert
-        if(dbInitialisieren == 1)
+    //---------------------------- Geforderte Methoden --------------------------------
+    //Die Szene wird durch eine Anmeldungszene ersetzt und deren Controller wird die eigene Referenz übergeben
+    public void neuAnmeldung() throws Exception{
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("anmeldungFXML.fxml"));
+            Parent anmeldung = loader.load();
+            AnmeldungsController AnmeldungSceneController = (AnmeldungsController) loader.getController();
+            AnmeldungSceneController.setSteuerung(this);
+            MainStage.setTitle("Anmeldung");
+            MainStage.setScene(new Scene(anmeldung));
+            MainStage.show();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    //Neuen Benutzer hinzufügen mit Hilfe von benutzerEintragen()
+    public void neuerBenutzer(Benutzer benutzer) throws IOException, ClassNotFoundException, BenutzerVerwaltungAdmin.DuplicateObjectException {
+
+        try {
+            admin.benutzerEintragen(benutzer);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
+            Parent login_neuerBenutzer = loader.load();
+            LoginController LoginSceneController = (LoginController) loader.getController();
+            LoginSceneController.setSteuerung(this);
+            LoginSceneController.setNachricht("Erfolgreich! Einloggen ist nun möglich!");
+            MainStage.setTitle("Login Neuer Benutzer");
+            MainStage.setScene(new Scene(login_neuerBenutzer));
+            MainStage.show();
+
+
+        }
+        catch (Exception e)
         {
-            admin2.dbInit();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("anmeldungFXML.fxml"));
+            Parent anmeldung = loader.load();
+            AnmeldungsController AnmeldungSceneController = (AnmeldungsController) loader.getController();
+            AnmeldungSceneController.setSteuerung(this);
+            AnmeldungSceneController.setNachricht("Benutzer kann nicht eingetragen werden");
+            MainStage.setTitle("Neuer Benutzer fehlgeschlagen");
+            MainStage.setScene(new Scene(anmeldung));
+            MainStage.show();
         }
 
-        //übergabe der MainApplication an den Controller
-        logincontroller.setMainApp(this);
-        //Neue scene erstellen
-        Scene scene = new Scene(loginroot);
-        stage.setScene(scene);
-        //stage ausgeben
-        stage.show();
     }
 
-    //--------- void neuAnmeldung -------------
-    //wird von logincotroller ausgeführt wenn neuAnmeldung==true
-    public void neuAnmeldung() throws Exception {
-        //übergabe an MainApp
-        anmeldecontroller.setMainApp(this); // Übergabe der eigenen Referenz
-        //neue Anmeldungs Scene
-        Scene scene = new Scene(anmelderoot);
-        mainstage.setScene(scene);
-    }
 
-    //wird vom Anmeldungscontroller ausgeführt wenn submit Button gedrückt wird und die passwörter stimmen
-    public void neuerBenutzer(Benutzer benutzer) throws Exception {
-        //versuche neuen Benutzer einzutragen
-        try{
-            admin2.benutzerEintragen(benutzer);
-            //Error anzeigen
-        }catch(Exception e){
-            //Anzeigen des Fehlers (bereits vorhanden)
-            anmeldecontroller.setError("Error: User bereits vorhanden");
-            //keine neue scene
-            return;
+
+
+    void benutzerLogin(Benutzer benutzer) throws IOException, ClassNotFoundException {
+
+        //Es wird durch Aufruf der Methode benutzerVorhanden(benutzer)
+        //überprüft, ob der Benutzer bereits in BenutzerVerwaltungAdmin
+        //eingetragen ist.
+        if (admin.benutzerVorhanden(benutzer)) {
+
+            Parent root = FXMLLoader.load(getClass().getResource("anwendung.fxml"));
+            MainStage.setTitle("BenutzerLogin");
+            MainStage.setScene(new Scene(root));
+            MainStage.show();
+            //Ist dies der Fall, soll dem Anwender angezeigt werden, dass er nun
+            //das System benutzen kann, indem eine AnwendungsScene erzeugt wird.
         }
-        //konnte nicht loginroot 2 mal verwenden. Man hätte wahrscheinlich die alte loginscene benutzen können
-        //übergabe
-        logincontroller2.setMainApp(this); //Übergabe der eigenen Referenz an den Controller
-        //neue Scene
-        Scene scene = new Scene(loginroot2);
-        mainstage.setScene(scene);
+
+        else{ //Wenn Benutzer nicht vorhanden ist
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginFXML.fxml"));
+            Parent login = loader.load();
+            LoginController LoginSceneController = (LoginController) loader.getController();
+            LoginSceneController.setNachricht("Benutzer nicht vorhanden oder Login Daten falsch");
+            LoginSceneController.setSteuerung(this);
+            MainStage.setTitle("Login");
+            MainStage.setScene(new Scene(login));
+            MainStage.show();
+
+        }
+
     }
 
-    //wird vom logincotroller aufgerufen, eingegebener Benutzer vorhanden (Eingabe richtig)
-    public void benutzerLogin(Benutzer benutzer) throws Exception {
-        if(admin2.benutzerVorhanden(benutzer)){
-            //Passwort Überprüfung nicht gefordert?
-            Scene scene = new Scene(anwendungsroot);
-            mainstage.setScene(scene);
-        }else{
-            //login scene fehler Benutzer/PW falsch
-            logincontroller.setError("Benutzer oder Passwort falsch");
-            //da man nicht weiß wo man her kommt einfach beide
-            logincontroller2.setError("Benutzer oder Passwort falsch");
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

@@ -55,13 +55,13 @@
                </font>
             </Button>
             <TextField fx:id="wiederholungTextfield" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="hiddenMeldung" prefHeight="17.0" prefWidth="227.0" text="Passwort != Wiederholung" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="hiddenMeldung" alignment="CENTER" prefHeight="17.0" prefWidth="227.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="error" alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Paswörter stimmen nicht überein!" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
-                  <Font size="19.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>
       </GridPane>
-      <Label fx:id="error" layoutX="154.0" layoutY="418.0" />
    </children>
 </Pane>

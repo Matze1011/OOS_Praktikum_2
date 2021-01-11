@@ -47,7 +47,7 @@ public class main
         //BenutzerVerwaltungAdmin adminTest = new BenutzerVerwaltungAdmin("UnitTestDbInit.txt");
         //admin1.deserialisieren();
         //adminTest.dbInit();
-        admin1.dbInit();
+        //admin1.dbInit();
         System.out.println("Benutzer 1 - 5  werden in die Datenhaltung geaddet.");
 
         admin1.benutzerEintragen(benutzer1);
